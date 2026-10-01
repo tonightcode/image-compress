@@ -1,0 +1,5 @@
+src/LetSmall/bin/
+src/LetSmall/obj/
+artifacts/*.exe
+*.tmp
+Thumbs.db
