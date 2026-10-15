@@ -1,0 +1,29 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "wandering-hat-a5a4",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-06",
+  "workers_dev": true,
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "d1_databases": [
+    {
+      "binding": "letsmall_data",
+      "database_name": "letsmall_data",
+      "database_id": "07526d88-828e-4694-94ed-3ca5bd4693d5",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "ENVIRONMENT": "production",
+    "SITE_ORIGIN": "https://wandering-hat-a5a4.jialeipengzx.workers.dev",
+    "PADDLE_ENVIRONMENT": "production",
+    "CHECKOUT_ENABLED": "false",
+    "PUBLIC_READY": "false"
+  },
+  "limits": { "cpu_ms": 10 },
+  "observability": { "enabled": true }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "letsmall-cloud-service",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit && tsc -p web/tsconfig.json --noEmit",
+    "build": "esbuild web/site.ts --bundle --minify --outfile=public/site.js --format=iife",
+    "prepare-assets": "node scripts/prepare-assets.mjs",
+    "dev": "npm run build && npm run prepare-assets && wrangler dev --local --port 8787",
+    "db:local": "wrangler d1 migrations apply letsmall_data --local",
+    "deploy": "npm run typecheck && npm run build && npm run prepare-assets && wrangler deploy",
+    "keygen": "node scripts/license-key.mjs"
+  },
+  "dependencies": {
+    "lucide": "1.54.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20261008.1",
+    "esbuild": "0.28.2",
+    "miniflare": "4.20260730.0",
+    "typescript": "7.0.2",
+    "wrangler": "4.149.0"
+  }
+}

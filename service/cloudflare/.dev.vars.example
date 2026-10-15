@@ -1,0 +1,7 @@
+ENVIRONMENT="local"
+SITE_ORIGIN="http://127.0.0.1:8787"
+PADDLE_ENVIRONMENT="sandbox"
+CHECKOUT_ENABLED="false"
+PUBLIC_READY="false"
+# Add actual sandbox credentials locally only after the merchant is configured.
+# Never copy production private keys into a test environment.

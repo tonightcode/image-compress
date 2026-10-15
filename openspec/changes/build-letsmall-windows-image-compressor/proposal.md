@@ -25,6 +25,8 @@
 
 ## Impact
 
+云端付款与授权的实现规划已独立为 [add-letsmall-cloudflare-payment-and-licensing](../add-letsmall-cloudflare-payment-and-licensing/proposal.md)，采用 Cloudflare Workers + D1 和 Paddle。桌面提案继续负责原有产品行为、客户端联调及安装包验收，不重复承接新提案的云端实现任务。
+
 - 新增 C# WPF Windows 应用、JPG/PNG/WebP 图片处理和安装包；使用目标 Windows 已包含的 .NET Framework 4.8，不依赖 WebView2。
 - 新增本地偏好设置与免费使用记录；购买和授权需要外部支付渠道及可验证的授权服务，并支持一次性激活凭证、设备绑定和本地验签，具体服务商在实施前确认。
 - 首版只交付 Windows 10 22H2 / Windows 11 x64；macOS 兼容性与打包不作为验收条件。

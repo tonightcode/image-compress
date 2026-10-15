@@ -3,3 +3,10 @@ src/LetSmall/obj/
 artifacts/*.exe
 *.tmp
 Thumbs.db
+service/cloudflare/node_modules/
+service/cloudflare/.wrangler/
+service/cloudflare/.dev.vars*
+!service/cloudflare/.dev.vars.example
+service/cloudflare/.verification/
+service/cloudflare/public/site.js
+service/cloudflare/public/downloads/

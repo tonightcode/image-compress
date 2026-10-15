@@ -41,8 +41,8 @@ namespace LetSmall
         {
             Title = "letsmall";
             UiPalette.UseLightCaption(this);
-            Width = 1040;
-            Height = 660;
+            Width = Math.Min(1040, SystemParameters.WorkArea.Width);
+            Height = Math.Min(660, SystemParameters.WorkArea.Height);
             MinWidth = 700;
             MinHeight = 500;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;

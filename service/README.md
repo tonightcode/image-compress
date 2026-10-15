@@ -1,5 +1,10 @@
 # Authorization core
 
+The Cloudflare implementation and first-design product website are now in
+`service/cloudflare/`. Read its `README.md` for local preview, D1 migrations,
+configuration and deployment. The Python modules below remain the original
+provider-independent reference, not the Cloudflare deployment entry point.
+
 `authorization.py` is the provider-independent part of letsmall activation.
 `http_api.py` provides a WSGI handler for `POST /activate`. Neither file is a
 checkout integration, and neither exposes an endpoint that can mark an order
@@ -29,3 +34,10 @@ stay outside the repository and installer; `public_key_xml()` produces the
 public key format embedded into the desktop build. The module was exercised
 with Python 3.11 and `cryptography` 39.0.1. A production service deployment,
 key management, payment adapter, and full end-to-end paid flow remain pending.
+
+Provider-independent activation and desktop compatibility were verified again
+on 2026-10-08, including concurrent claims, replay, unpaid tokens, lost-license
+rejection, C# local verification and actual NSIS uninstall/reinstall. See
+`artifacts/desktop-license-verification.md` for inputs, results and the
+loopback test-transport limitations. These checks do not complete merchant
+checkout or production HTTPS deployment.

@@ -69,6 +69,7 @@ namespace LetSmall
             suffix.TextChanged += (sender, args) => UpdateExample();
             suffixGroup.Children.Add(suffix);
             example = UiPalette.Text("", 13, UiPalette.Muted);
+            example.TextTrimming = TextTrimming.CharacterEllipsis;
             example.Margin = new Thickness(0, 8, 0, 0);
             suffixGroup.Children.Add(example);
             UpdateExample();
@@ -124,6 +125,7 @@ namespace LetSmall
             if (example != null)
             {
                 example.Text = "Vacation.jpg  \u2192  Vacation" + suffix.Text + ".jpg";
+                example.ToolTip = example.Text;
             }
         }
 

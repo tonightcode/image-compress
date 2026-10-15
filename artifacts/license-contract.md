@@ -1,5 +1,11 @@
 # letsmall local license contract
 
+Latest verification: [desktop-license-verification.md](desktop-license-verification.md)
+(2026-10-08). Device-bound issuance, desktop transport/persistence, rejection,
+lost-license policy and two actual NSIS reinstall cycles have passed. Older
+sections below retain their original dated observations. Real payment and
+deployed HTTPS remain task 4.3.
+
 This documents the desktop verifier, activation client, and provider-independent
 authorization core. Merchant checkout, a verified paid-order callback, token
 delivery, and a deployed HTTPS activation service remain unimplemented. The

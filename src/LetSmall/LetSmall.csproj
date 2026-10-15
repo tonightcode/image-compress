@@ -8,6 +8,7 @@
     <RootNamespace>LetSmall</RootNamespace>
     <AssemblyName>letsmall</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
     <LangVersion>7.3</LangVersion>
     <Platforms>x64</Platforms>
   </PropertyGroup>

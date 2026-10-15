@@ -53,6 +53,8 @@ namespace LetSmall
 
         internal static void UseLightCaption(Window window)
         {
+            window.UseLayoutRounding = true;
+            window.SnapsToDevicePixels = true;
             window.SourceInitialized += (sender, args) =>
             {
                 var handle = new WindowInteropHelper(window).Handle;

@@ -1,5 +1,13 @@
 # letsmall implementation review
 
+For the 2026-10-08 DPI and authorization results, see
+[desktop-license-verification.md](desktop-license-verification.md).
+Tasks 1.4, 4.4 and 4.5 are now complete. The user accepted the DPI rendering
+results without requiring an actual OS display-scale or cross-monitor check.
+Payment integration and final installed release acceptance remain open.
+The dated review below describes earlier
+checks, including limitations subsequently covered by the newer verification.
+
 Reviewed on Windows x64, 2026-09-28. This is an implementation review, not a
 release approval. Payment and activation are still incomplete.
 
