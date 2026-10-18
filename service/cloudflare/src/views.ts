@@ -1,5 +1,6 @@
 import type { Env } from './types';
 import { paymentConfigured } from './http';
+import { policies } from './policies';
 
 export function escape(value: string): string {
   return value.replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]!));
@@ -62,8 +63,8 @@ export function checkout(env: Env, transactionId: string): string {
 
 export function information(env: Env, page: string): string {
   const content: Record<string, { title: string; body: string }> = {
-    privacy: { title: 'Privacy', body: `<p>Your images are processed on your computer. letsmall does not upload your images or their file paths.</p><h2>Purchases and activation</h2><p>Our payment provider processes payment details. The license service stores your transaction reference, a hashed computer identifier, activation status and purchase-session token hashes. Temporary, hashed network identifiers are used to limit abusive requests.</p><p>Essential purchase cookies keep the checkout and activation link in the same browser. We do not use advertising or analytics cookies on this website.</p><h2>Questions</h2>${contact(env)}` },
-    terms: { title: 'Terms & refunds', body: `<h2>Your license</h2><p>The $6.90 purchase unlocks unlimited local image compression on one computer for the purchasing Windows user. It is a one-time payment, not a subscription. Applicable taxes are shown at checkout.</p><p>Licenses cannot be transferred. Uninstalling letsmall retains the local license. Reinstalling on the same Windows installation and user account works while that file is retained.</p><p>If the local license is deleted, the computer changes, or Windows/user data is replaced, a new purchase is required. Old orders cannot be used to recover or reissue a license.</p><h2>Activation</h2><p>Finish activation in your original purchase browser within 10 minutes of payment confirmation. Clearing purchase cookies prevents that browser from retrieving the activation link. Activation links can be used once. A consumed link cannot be reissued, including after an interrupted license delivery.</p><h2>Refunds</h2>${env.PUBLIC_READY === 'true' && env.REFUND_POLICY ? `<p class="policy-text">${escape(env.REFUND_POLICY)}</p>` : '<p>Purchases are not open yet. The refund policy will be published before checkout is enabled. Your statutory rights are not affected.</p>'}<h2>Contact</h2>${contact(env)}` },
+    privacy: { title: 'Privacy Policy', body: policies.privacy },
+    terms: { title: 'Purchase Terms & Refunds', body: policies.terms },
     contact: { title: 'Contact', body: `${contact(env)}<p>For a payment question, include your transaction reference. Do not send passwords, payment card details or private image files.</p>` }
   };
   const entry = content[page];

@@ -1,0 +1,69 @@
+{
+  "threadId": "01a0e5c0-d3fe-7e50-ad3d-794ef48e8b5b",
+  "exportedAt": "2026-10-18T13:43:37.218Z",
+  "sources": [
+    {
+      "file": "rollout-2026-09-28T10-03-34-01a0e5c0-d3fe-7e50-ad3d-794ef48e8b5b.jsonl.zst",
+      "exportedMessages": 7
+    },
+    {
+      "file": "rollout-2026-09-28T10-11-52-01a0e5c0-d3fe-7e50-ad3d-794ef48e8b5b_01a0e5c8-6b84-7293-bec6-6f1d82bb2ede.jsonl.zst",
+      "exportedMessages": 17
+    },
+    {
+      "file": "rollout-2026-09-28T10-43-46-01a0e5c0-d3fe-7e50-ad3d-794ef48e8b5b_01a0e5e5-a000-7cc1-9bef-53a70320cfa8.jsonl.zst",
+      "exportedMessages": 292
+    },
+    {
+      "file": "rollout-2026-10-08T09-49-44-01a0e5c0-d3fe-7e50-ad3d-794ef48e8b5b_01a11933-c0cb-7b11-b40f-1a70526a9447.jsonl",
+      "exportedMessages": 125
+    }
+  ],
+  "messages": 441,
+  "users": 115,
+  "assistants": 326,
+  "attachments": [
+    {
+      "path": "attachments/2e3be147d7073dded868.png",
+      "sha256": "2e3be147d7073dded8685bce682477aaaed4d863ad4baa66e78d737463977152",
+      "bytes": 1564
+    },
+    {
+      "path": "attachments/6f395b7c3abf26760a84.png",
+      "sha256": "6f395b7c3abf26760a84119126c4f244331ae16cb733f261ccd7d40fa108e976",
+      "bytes": 39472
+    },
+    {
+      "path": "attachments/2d350a0646d4cca452fe.png",
+      "sha256": "2d350a0646d4cca452fe2602085d8c7dafafb45c917f1ce844eba75036cc22f8",
+      "bytes": 88876
+    },
+    {
+      "path": "attachments/0503ea3446ce9eb1f361.png",
+      "sha256": "0503ea3446ce9eb1f361de3dff1b867c37ab04d5b35e85fbe11f407f72ac4581",
+      "bytes": 103601
+    },
+    {
+      "path": "attachments/5cdb5a1d4bad4c5f2527.png",
+      "sha256": "5cdb5a1d4bad4c5f2527e9989b584210468864b90e160bcef98e4aa9dcedd967",
+      "bytes": 149597
+    },
+    {
+      "path": "attachments/639d0fefa98b0f8f1b6b.png",
+      "sha256": "639d0fefa98b0f8f1b6b49d92c8c7416ac4a6ff324a50fc769f8883c78759a06",
+      "bytes": 38739
+    },
+    {
+      "path": "attachments/a92cb01c33eeb01ab01a.png",
+      "sha256": "a92cb01c33eeb01ab01aaed2babfda0241a57623b070a2acfa8f76ee3a95f8cc",
+      "bytes": 166282
+    }
+  ],
+  "missingImages": [],
+  "exclusions": [
+    "system/developer messages",
+    "hidden reasoning",
+    "raw tool logs",
+    "credentials and browser sessions"
+  ]
+}

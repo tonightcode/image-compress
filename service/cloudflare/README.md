@@ -3,8 +3,10 @@
 The first selected website design is implemented with a small TypeScript
 Worker, static HTML/CSS, a bundled Lucide icon script and D1. It uses the
 existing `wandering-hat-a5a4` Worker name and `letsmall_data` binding. This
-directory has not been deployed to the user's Cloudflare account. Checkout
-is disabled by default; no production credentials or real payment are present.
+directory was deployed to the existing Cloudflare account on October 18, 2026.
+Public website: https://wandering-hat-a5a4.jialeipengzx.workers.dev
+Checkout remains disabled; no real payment has been accepted. See
+`deployment.md` for the deployed version, migration and HTTPS verification.
 
 ## Local preview
 

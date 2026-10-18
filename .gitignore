@@ -1,6 +1,7 @@
 src/LetSmall/bin/
 src/LetSmall/obj/
 artifacts/*.exe
+artifacts/letsmall-handoff-*.zip
 *.tmp
 Thumbs.db
 service/cloudflare/node_modules/

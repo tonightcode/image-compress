@@ -4,6 +4,8 @@
   "main": "src/index.ts",
   "compatibility_date": "2026-08-06",
   "workers_dev": true,
+  "preview_urls": false,
+  "rules": [{ "type": "Text", "globs": ["**/*.md"], "fallthrough": true }],
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
@@ -22,8 +24,8 @@
     "SITE_ORIGIN": "https://wandering-hat-a5a4.jialeipengzx.workers.dev",
     "PADDLE_ENVIRONMENT": "production",
     "CHECKOUT_ENABLED": "false",
-    "PUBLIC_READY": "false"
+    "PUBLIC_READY": "false",
+    "CONTACT_EMAIL": "jialeipengzx@gmail.com"
   },
-  "limits": { "cpu_ms": 10 },
   "observability": { "enabled": true }
 }

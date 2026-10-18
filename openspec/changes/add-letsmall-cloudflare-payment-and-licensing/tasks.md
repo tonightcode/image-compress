@@ -1,5 +1,18 @@
 # Tasks
 
+## Deployment Evidence (2026-10-18)
+
+User authorized the public website deployment. The existing Worker and D1
+were deployed with checkout disabled; both database migrations and ten public
+HTTPS checks passed. See `service/cloudflare/deployment.md` for version IDs,
+recovery bookmark and actual results. Official Paddle sandbox/live acceptance,
+operator identity and Windows production configuration remain pending. This
+does not complete tasks 5.1-5.4 in full; their checkboxes remain unchanged.
+
+The installed OpenSpec CLI returned "Schema 'spec-driven' not found" when
+reading apply instructions, despite listing that schema as available. This
+deployment record is not an assertion that OpenSpec validation passed.
+
 ## 1. Workers 与 D1 基础
 
 - [ ] 1.1 在 `service/cloudflare/` 建立最小 TypeScript Worker 项目和本地开发配置，绑定名沿用 `letsmall_data`；验证类型检查、本地启动和 `/health`，配置缺失时不开放付款和签发。
