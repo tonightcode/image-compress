@@ -15,12 +15,12 @@ namespace LetSmall
 
         internal AppSettings Result { get; private set; }
 
-        internal SettingsDialog(AppSettings current)
+        internal SettingsDialog(AppSettings current, Action openUpdates = null)
         {
             Title = "Settings";
             UiPalette.UseLightCaption(this);
             Width = 490;
-            Height = 410;
+            Height = 455;
             ResizeMode = ResizeMode.NoResize;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
             Background = System.Windows.Media.Brushes.White;
@@ -73,6 +73,13 @@ namespace LetSmall
             example.Margin = new Thickness(0, 8, 0, 0);
             suffixGroup.Children.Add(example);
             UpdateExample();
+
+            var updates = UiPalette.Button("Software updates", false);
+            updates.HorizontalAlignment = HorizontalAlignment.Left;
+            updates.VerticalAlignment = VerticalAlignment.Center;
+            updates.Click += (sender, args) => { Close(); if (openUpdates != null) openUpdates(); };
+            Grid.SetRow(updates, 4);
+            root.Children.Add(updates);
 
             var actions = new Grid();
             actions.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });

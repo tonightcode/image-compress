@@ -11,8 +11,17 @@ function html(body: string): Response {
 async function route(request: Request, env: Env): Promise<Response> {
   const url = new URL(request.url);
   const path = url.pathname;
-  if (!validConfiguration(env)) throw new HttpError(503, 'Service configuration is incomplete.');
   if (url.protocol !== 'https:' && env.ENVIRONMENT !== 'local') throw new HttpError(403, 'HTTPS required.');
+  if (path === '/updates/latest.json' || /^\/downloads\/letsmall-\d+\.\d+\.\d+-win-x64\.exe$/.test(path)) {
+    if (!['GET', 'HEAD'].includes(request.method)) return json({ error: 'Method not allowed.' }, 405, { Allow: 'GET, HEAD' });
+    const asset = await env.ASSETS.fetch(request);
+    if (asset.status !== 200) throw new HttpError(503, 'The update is not available.');
+    const headers = new Headers(asset.headers);
+    headers.set('Cache-Control', path === '/updates/latest.json' ? 'no-store' : 'public, max-age=31536000, immutable');
+    headers.set('Content-Type', path === '/updates/latest.json' ? 'application/json; charset=utf-8' : 'application/octet-stream');
+    return new Response(request.method === 'HEAD' ? null : asset.body, { headers });
+  }
+  if (!validConfiguration(env)) throw new HttpError(503, 'Service configuration is incomplete.');
   const methods: Record<string, string> = {
     '/health': 'GET', '/activate': 'POST', '/checkout/start': 'POST', '/webhooks/paddle': 'POST',
     '/purchase/status': 'GET', '/purchase/result': 'GET', '/purchase/checkout': 'GET'

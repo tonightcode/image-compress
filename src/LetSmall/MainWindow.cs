@@ -36,6 +36,9 @@ namespace LetSmall
         private Button compressButton;
         private ComboBox formatBox;
         private CancellationTokenSource currentRun;
+        private readonly UpdateClient updates = new UpdateClient();
+        private UpdateDialog updateDialog;
+        private Button updateNotice;
 
         internal MainWindow(string[] startupPaths, string activationLink = null)
         {
@@ -50,6 +53,12 @@ namespace LetSmall
             FontFamily = new FontFamily("Segoe UI");
             Content = BuildLayout();
             RefreshRows();
+            Loaded += async (sender, args) =>
+            {
+                await updates.CheckAsync();
+                if (updates.Available && IsVisible) updateNotice.Visibility = Visibility.Visible;
+            };
+            Closed += (sender, args) => updates.Dispose();
             Activated += (sender, args) => isUnlocked = LicenseStore.IsUnlocked();
             if (startupPaths != null && startupPaths.Length > 0)
             {
@@ -104,6 +113,13 @@ namespace LetSmall
             name.Margin = new Thickness(12, 0, 0, 0);
             Grid.SetColumn(name, 1);
             content.Children.Add(name);
+            updateNotice = UiPalette.Button("Update available", false);
+            updateNotice.Visibility = Visibility.Collapsed;
+            updateNotice.HorizontalAlignment = HorizontalAlignment.Right;
+            updateNotice.Margin = new Thickness(0, 0, 12, 0);
+            updateNotice.Click += (sender, args) => OpenUpdates();
+            Grid.SetColumn(updateNotice, 1);
+            content.Children.Add(updateNotice);
             settingsButton = UiPalette.Button("\u2699", false);
             settingsButton.Width = 43;
             settingsButton.Height = 40;
@@ -388,6 +404,7 @@ namespace LetSmall
 
         private void SetRunning(bool running)
         {
+            if (updateDialog != null) updateDialog.Refresh();
             dropArea.IsEnabled = !running;
             settingsButton.IsEnabled = !running;
             formatBox.IsEnabled = !running;
@@ -558,11 +575,43 @@ namespace LetSmall
 
         private void OpenSettings()
         {
-            var dialog = new SettingsDialog(settings) { Owner = this };
+            var dialog = new SettingsDialog(settings, OpenUpdates) { Owner = this };
             if (dialog.ShowDialog() == true)
             {
                 settings = dialog.Result;
                 LocalStore.Save("settings.xml", settings);
+            }
+        }
+
+        private void OpenUpdates()
+        {
+            updateNotice.Visibility = Visibility.Collapsed;
+            if (updateDialog != null) { updateDialog.Activate(); return; }
+            updateDialog = new UpdateDialog(updates, () => currentRun != null, InstallUpdate);
+            updateDialog.Owner = this;
+            updateDialog.Closed += (sender, args) => updateDialog = null;
+            updateDialog.Show();
+        }
+
+        private void InstallUpdate()
+        {
+            if (currentRun != null)
+            {
+                MessageBox.Show(this, "Wait for compression to finish before updating.", "Software updates");
+                return;
+            }
+            if (MessageBox.Show(this, "Restart and install the update? The imported image list will be cleared. Your images, license and settings will be kept.",
+                "Software updates", MessageBoxButton.OKCancel) != MessageBoxResult.OK) return;
+            try
+            {
+                if (currentRun != null) return;
+                updates.StartInstaller();
+                Application.Current.Shutdown();
+            }
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException ||
+                ex is System.ComponentModel.Win32Exception || ex is InvalidOperationException)
+            {
+                MessageBox.Show(this, "Could not start the update. Please try again or reinstall from the website.", "Software updates");
             }
         }
     }

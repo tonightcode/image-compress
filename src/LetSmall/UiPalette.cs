@@ -53,6 +53,8 @@ namespace LetSmall
 
         internal static void UseLightCaption(Window window)
         {
+            window.Icon = System.Windows.Media.Imaging.BitmapFrame.Create(
+                new Uri("pack://application:,,,/letsmall;component/Assets/letsmall.ico", UriKind.Absolute));
             window.UseLayoutRounding = true;
             window.SnapsToDevicePixels = true;
             window.SourceInitialized += (sender, args) =>
