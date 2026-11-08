@@ -6,6 +6,17 @@
   <SolidColorBrush x:Key="OrangeBrush" Color="#FF4C3E" />
   <SolidColorBrush x:Key="MintBrush" Color="#E8FAF6" />
   <SolidColorBrush x:Key="TealBrush" Color="#00AFA5" />
+  <PopupAnimation x:Key="PopupMotion">Fade</PopupAnimation>
+
+  <Style x:Key="KeyboardFocusStyle" TargetType="Control">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <Border Margin="-3" CornerRadius="8" BorderBrush="#087C73" BorderThickness="2" />
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 
   <Style TargetType="{x:Type Button}">
     <Setter Property="Background" Value="White" />
@@ -15,24 +26,44 @@
     <Setter Property="Padding" Value="14,8" />
     <Setter Property="Cursor" Value="Hand" />
     <Setter Property="FontFamily" Value="Segoe UI" />
+    <Setter Property="FocusVisualStyle" Value="{StaticResource KeyboardFocusStyle}" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type Button}">
-          <Border x:Name="Chrome" Background="{TemplateBinding Background}"
+          <Grid>
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualStateGroup.Transitions>
+                  <VisualTransition GeneratedDuration="{StaticResource InteractionDuration}" />
+                  <VisualTransition To="Disabled" GeneratedDuration="0" />
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="MouseOver">
+                  <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="HoverLayer" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="PressLayer" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Disabled" />
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Border x:Name="Chrome" Background="{TemplateBinding Background}"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"
-                  CornerRadius="6" SnapsToDevicePixels="True">
+                  CornerRadius="6" SnapsToDevicePixels="True" />
+            <Border x:Name="HoverLayer" Background="#0D101323" CornerRadius="6"
+                    Opacity="0" IsHitTestVisible="False" />
+            <Border x:Name="PressLayer" Background="#20101323" CornerRadius="6"
+                    Opacity="0" IsHitTestVisible="False" />
             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
                               Margin="{TemplateBinding Padding}"
                               RecognizesAccessKey="True" />
-          </Border>
+          </Grid>
           <ControlTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-              <Setter TargetName="Chrome" Property="Opacity" Value="0.88" />
-            </Trigger>
-            <Trigger Property="IsPressed" Value="True">
-              <Setter TargetName="Chrome" Property="Opacity" Value="0.72" />
-            </Trigger>
             <Trigger Property="IsEnabled" Value="False">
               <Setter TargetName="Chrome" Property="Background" Value="#F0F3F7" />
               <Setter TargetName="Chrome" Property="BorderBrush" Value="#DCE3EB" />
@@ -59,48 +90,16 @@
     </Style.Triggers>
   </Style>
 
-  <Style x:Key="ImportMenuStyle" TargetType="{x:Type ContextMenu}">
-    <Setter Property="MinWidth" Value="190" />
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="{x:Type ContextMenu}">
-          <Border Background="White" BorderBrush="{StaticResource LineBrush}"
-                  BorderThickness="1" CornerRadius="7" Padding="5"
-                  SnapsToDevicePixels="True">
-            <Border.Effect>
-              <DropShadowEffect Color="#273447" BlurRadius="15"
-                                ShadowDepth="4" Opacity="0.17" />
-            </Border.Effect>
-            <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Cycle" />
-          </Border>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
-
-  <Style x:Key="ImportMenuItemStyle" TargetType="{x:Type MenuItem}">
-    <Setter Property="Cursor" Value="Hand" />
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="{x:Type MenuItem}">
-          <Border x:Name="ItemChrome" Background="Transparent" CornerRadius="5"
-                  Margin="1" Padding="12,9">
-            <ContentPresenter ContentSource="Header" VerticalAlignment="Center"
-                              RecognizesAccessKey="True" />
-          </Border>
-          <ControlTemplate.Triggers>
-            <Trigger Property="IsHighlighted" Value="True">
-              <Setter TargetName="ItemChrome" Property="Background"
-                      Value="{StaticResource MintBrush}" />
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-              <Setter Property="Opacity" Value="0.45" />
-              <Setter Property="Cursor" Value="Arrow" />
-            </Trigger>
-          </ControlTemplate.Triggers>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
+  <Style x:Key="ImageRowStyle" TargetType="{x:Type Border}">
+    <Setter Property="Background" Value="White" />
+    <Style.Triggers>
+      <Trigger Property="IsMouseOver" Value="True">
+        <Setter Property="Background" Value="#F5FBF9" />
+      </Trigger>
+      <Trigger Property="IsKeyboardFocusWithin" Value="True">
+        <Setter Property="Background" Value="#EDF8F5" />
+      </Trigger>
+    </Style.Triggers>
   </Style>
 
   <Style TargetType="{x:Type TextBox}">
@@ -126,7 +125,6 @@
           <ControlTemplate.Triggers>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
               <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource TealBrush}" />
-              <Setter TargetName="Chrome" Property="BorderThickness" Value="2" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
               <Setter TargetName="Chrome" Property="Background" Value="#F0F3F7" />
@@ -196,9 +194,10 @@
             </ToggleButton>
             <Popup x:Name="PART_Popup" AllowsTransparency="True" Focusable="False"
                    Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}"
-                   PopupAnimation="Fade">
+                   HorizontalOffset="-8" VerticalOffset="2"
+                   PopupAnimation="{DynamicResource PopupMotion}">
               <Border Background="White" BorderBrush="{StaticResource LineBrush}"
-                      BorderThickness="1" CornerRadius="6" Padding="3"
+                      BorderThickness="1" CornerRadius="6" Padding="3" Margin="8,6,8,10"
                       MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
                 <Border.Effect>
                   <DropShadowEffect Color="#273447" BlurRadius="12" ShadowDepth="3" Opacity="0.18" />
@@ -210,6 +209,12 @@
             </Popup>
           </Grid>
           <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="#9CAFC4" />
+            </Trigger>
+            <Trigger Property="IsDropDownOpen" Value="True">
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource TealBrush}" />
+            </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
               <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource TealBrush}" />
             </Trigger>

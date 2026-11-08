@@ -26,13 +26,13 @@ namespace LetSmall
             root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             Content = root;
 
-            var heading = UiPalette.Text("More than 3 images?", 25, UiPalette.Ink);
+            var heading = UiPalette.Text("More than " + QuotaCounter.DailyLimit + " images?", 25, UiPalette.Ink);
             heading.FontWeight = FontWeights.SemiBold;
             heading.HorizontalAlignment = HorizontalAlignment.Center;
             root.Children.Add(heading);
 
             var message = UiPalette.Text(
-                "You can compress 3 images per day for free.\nUnlock unlimited images with a one-time purchase.",
+                "You can compress " + QuotaCounter.DailyLimit + " images per day for free.\nUnlock unlimited images with a one-time purchase.",
                 14, UiPalette.Muted);
             message.TextAlignment = TextAlignment.Center;
             message.HorizontalAlignment = HorizontalAlignment.Center;

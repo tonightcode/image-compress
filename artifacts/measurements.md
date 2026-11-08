@@ -212,3 +212,36 @@ byte-for-byte after these checks.
 JPEG and PNG use Windows/.NET Framework codecs and add no bundled codec files.
 The baseline installer is a measurement variant, not a functional release for
 WebP. The final release size must be measured again after all features are added.
+
+
+## 2026-11-08: Daily free quota increased to nine
+
+This section supersedes the historical three-per-day quota expectations above.
+Historical measurements and conversation exports remain unchanged as evidence.
+The old visual mockup quota labels are historical references; current code and
+OpenSpec define nine successful outputs per local calendar day.
+
+- Shared desktop constant: QuotaCounter.DailyLimit = 9, used by quota calculation
+  and both quota dialog labels. Successful output accounting and paid unlocking
+  are unchanged; an existing Used=3 record now leaves six free outputs.
+- Website homepage, metadata and rendered purchase terms all advertise nine.
+- Ten checks against the rebuilt Release assembly passed, with no user quota
+  files read or written by the harness:
+
+| Input (used today unless specified) | Expected remaining | Actual |
+| --- | --- | --- |
+| 0 | 9 | 9 |
+| 1 | 8 | 8 |
+| 2 | 7 | 7 |
+| 3 (existing old-limit usage) | 6 | 6 |
+| 4 | 5 | 5 |
+| 7 | 2 | 2 |
+| 8 | 1 | 1 |
+| 9 | 0 | 0 |
+| 10 | 0 | 0 |
+| LastDay tomorrow, Used=3 (clock rollback) | 6, no reset | 6 |
+
+Release x64 build, NSIS packaging, TypeScript typecheck/build, rendered website
+copy assertions, and strict validation of the desktop and payment/website
+OpenSpec changes passed. Installer: 681416 bytes. Website download asset was
+refreshed from this installer. No production website deployment or Git commit.

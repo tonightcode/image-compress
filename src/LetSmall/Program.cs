@@ -28,6 +28,7 @@ namespace LetSmall
         private static void Run(string[] args)
         {
             var app = new Application();
+            UiMotion.Initialize(app);
             app.Resources.MergedDictionaries.Add(new ResourceDictionary
             {
                 Source = new Uri("/letsmall;component/Styles.xaml", UriKind.Relative)

@@ -5,15 +5,23 @@
 ## ADDED Requirements
 
 ### Requirement: Unified file and folder import
-应用 SHALL 在主界面提供一个统一导入区，接受拖入的文件、文件夹及其组合；点击导入区 SHALL 允许用户选择导入文件或文件夹。文件夹 SHALL 递归查找支持的静态图片，同一路径在当前队列中 SHALL 只出现一次。
+应用 SHALL 在主界面提供一个统一导入区，接受拖入的文件、文件夹及其组合；点击导入区或聚焦后按 Enter/Space SHALL 直接打开支持多选的 Windows 文件选择框，不展示 Files / Folder 菜单或导入文件夹选择框。取消选择 SHALL 保留原队列，压缩期间 SHALL 不打开导入选择框。拖入文件夹 SHALL 递归查找支持的静态图片，同一路径在当前队列中 SHALL 只出现一次。
 
 #### Scenario: Drop a folder containing nested images
 - **WHEN** 用户拖入一个含子文件夹和图片的文件夹
 - **THEN** 应用将支持的图片加入队列，并保留每张图片的原始路径
 
 #### Scenario: Select files from the unified area
-- **WHEN** 用户点击统一导入区并选择文件导入
-- **THEN** 应用打开 Windows 文件选择器，并将所选支持的图片加入队列
+- **WHEN** 用户点击统一导入区或聚焦后按 Enter/Space
+- **THEN** 应用直接打开 Windows 文件选择器，支持 Ctrl/Shift 多选图片并加入队列，无需选择导入类型
+
+#### Scenario: Browse and cancel file selection
+- **WHEN** 用户在文件框中双击文件夹，随后取消选择
+- **THEN** 双击只进入文件夹浏览，文件夹本身不作为选择结果，取消后原队列不变
+
+#### Scenario: Compression blocks browsing
+- **WHEN** 正在压缩时用户尝试激活导入区
+- **THEN** 不打开文件选择框，不影响当前压缩任务
 
 #### Scenario: Duplicate input path
 - **WHEN** 同一图片通过文件和文件夹两种方式重复导入

@@ -12,7 +12,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Automation;
-using System.Windows.Controls.Primitives;
 using ShapePath = System.Windows.Shapes.Path;
 using Rectangle = System.Windows.Shapes.Rectangle;
 
@@ -22,8 +21,6 @@ namespace LetSmall
     {
         private const string FolderIconData =
             "M 2,6 L 8,6 L 10,8 L 20,8 L 20,18 L 2,18 Z";
-        private const string FileIconData =
-            "M 5,3 L 14,3 L 19,8 L 19,21 L 5,21 Z M 14,3 L 14,8 L 19,8";
         private readonly List<ImageJob> jobs = new List<ImageJob>();
         private readonly Dictionary<string, ImageSource> thumbnails =
             new Dictionary<string, ImageSource>(StringComparer.OrdinalIgnoreCase);
@@ -105,7 +102,7 @@ namespace LetSmall
             logo.Children.Add(new Border { Background = UiPalette.Orange });
             logo.Children.Add(new Border { Background = Brushes.White,
                 Margin = new Thickness(7, 7, 7, 7) });
-            logo.Children.Add(new Border { Background = UiPalette.Mint,
+            logo.Children.Add(new Border { Background = UiPalette.Teal,
                 Margin = new Thickness(13, 13, 13, 13) });
             content.Children.Add(logo);
             var name = UiPalette.Text("letsmall", 29, UiPalette.Ink);
@@ -135,7 +132,8 @@ namespace LetSmall
         private Grid BuildDropArea()
         {
             var container = new Grid { Margin = new Thickness(26, 20, 26, 17),
-                Cursor = Cursors.Hand, AllowDrop = true };
+                Cursor = Cursors.Hand, AllowDrop = true, Focusable = true };
+            AutomationProperties.SetName(container, "Import images. Press Enter or Space to choose one or more image files.");
             var rectangle = new Rectangle
             {
                 Fill = UiPalette.Mint,
@@ -160,7 +158,20 @@ namespace LetSmall
             label.FontWeight = FontWeights.SemiBold;
             contents.Children.Add(label);
             container.Children.Add(contents);
-            container.MouseLeftButtonUp += (sender, args) => ShowImportMenu();
+            container.MouseEnter += (sender, args) => rectangle.Fill = UiPalette.Brush(219, 245, 238);
+            container.MouseLeave += (sender, args) => rectangle.Fill = UiPalette.Mint;
+            container.GotKeyboardFocus += (sender, args) => rectangle.StrokeThickness = 2.5;
+            container.LostKeyboardFocus += (sender, args) => rectangle.StrokeThickness = 1.5;
+            container.KeyDown += async (sender, args) =>
+            {
+                if (args.Key != Key.Enter && args.Key != Key.Space) return;
+                args.Handled = true;
+                if (!args.IsRepeat) await SelectFilesAsync();
+            };
+            container.DragEnter += (sender, args) => rectangle.StrokeThickness = 2.5;
+            container.DragLeave += (sender, args) => rectangle.StrokeThickness = 1.5;
+            container.Drop += (sender, args) => rectangle.StrokeThickness = 1.5;
+            container.MouseLeftButtonUp += async (sender, args) => await SelectFilesAsync();
             container.DragOver += OnDragOver;
             container.Drop += OnDrop;
             return container;
@@ -200,42 +211,6 @@ namespace LetSmall
             return border;
         }
 
-        private void ShowImportMenu()
-        {
-            if (currentRun != null)
-            {
-                return;
-            }
-            var menu = new ContextMenu
-            {
-                Style = (Style)FindResource("ImportMenuStyle"),
-                PlacementTarget = dropArea,
-                Placement = PlacementMode.Bottom,
-                HorizontalOffset = Math.Max(0, (dropArea.ActualWidth - 190) / 2),
-                VerticalOffset = -8
-            };
-            var files = ImportMenuItem("Files", FileIconData, UiPalette.Teal);
-            files.Click += async (sender, args) => await SelectFilesAsync();
-            menu.Items.Add(files);
-            var folder = ImportMenuItem("Folder", FolderIconData, UiPalette.Orange);
-            folder.Click += async (sender, args) => await SelectFolderAsync();
-            menu.Items.Add(folder);
-            menu.IsOpen = true;
-        }
-
-        private MenuItem ImportMenuItem(string label, string iconData, Brush color)
-        {
-            var header = new StackPanel { Orientation = Orientation.Horizontal };
-            header.Children.Add(CreateIcon(iconData, color));
-            var text = UiPalette.Text(label, 15, UiPalette.Ink);
-            text.Margin = new Thickness(12, 0, 0, 0);
-            header.Children.Add(text);
-            var item = new MenuItem { Header = header,
-                Style = (Style)FindResource("ImportMenuItemStyle") };
-            AutomationProperties.SetName(item, label);
-            return item;
-        }
-
         private static ShapePath CreateIcon(string data, Brush color)
         {
             return new ShapePath { Data = Geometry.Parse(data), Width = 19, Height = 19,
@@ -245,6 +220,7 @@ namespace LetSmall
 
         private async Task SelectFilesAsync()
         {
+            if (currentRun != null) return;
             var picker = new Microsoft.Win32.OpenFileDialog
             {
                 Multiselect = true,
@@ -253,17 +229,6 @@ namespace LetSmall
             if (picker.ShowDialog(this) == true)
             {
                 await ImportPathsAsync(picker.FileNames);
-            }
-        }
-
-        private async Task SelectFolderAsync()
-        {
-            using (var picker = new System.Windows.Forms.FolderBrowserDialog())
-            {
-                if (picker.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    await ImportPathsAsync(new[] { picker.SelectedPath });
-                }
             }
         }
 
@@ -436,7 +401,8 @@ namespace LetSmall
         private Border BuildRow(ImageJob job)
         {
             var border = new Border { BorderBrush = UiPalette.Line,
-                BorderThickness = new Thickness(0, 0, 0, 1), Height = 96 };
+                BorderThickness = new Thickness(0, 0, 0, 1), Height = 96,
+                Style = (Style)FindResource("ImageRowStyle") };
             var content = new Grid { Margin = new Thickness(26, 10, 26, 10) };
             content.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(70) });
             content.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
@@ -449,6 +415,8 @@ namespace LetSmall
             name.TextTrimming = TextTrimming.CharacterEllipsis;
             description.Children.Add(name);
             var status = UiPalette.Text(StatusText(job), 13, UiPalette.Muted);
+            if (job.Status == "Done") status.Foreground = UiPalette.Brush(8, 124, 109);
+            else if (job.Status.StartsWith("Failed:")) status.Foreground = UiPalette.Brush(180, 35, 24);
             status.TextTrimming = TextTrimming.CharacterEllipsis;
             status.ToolTip = job.Status.StartsWith("Failed:") ? job.Status : null;
             description.Children.Add(status);
@@ -608,7 +576,7 @@ namespace LetSmall
                 updates.StartInstaller();
                 Application.Current.Shutdown();
             }
-            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException ||
+            catch (Exception ex) when (ex is InvalidDataException || ex is IOException || ex is UnauthorizedAccessException ||
                 ex is System.ComponentModel.Win32Exception || ex is InvalidOperationException)
             {
                 MessageBox.Show(this, "Could not start the update. Please try again or reinstall from the website.", "Software updates");

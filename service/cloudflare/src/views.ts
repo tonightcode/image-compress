@@ -23,7 +23,7 @@ function buy(env: Env, label: string, primary = true): string {
 function layout(env: Env, title: string, body: string, page = '', transactionId = ''): string {
   const checkout = page === 'checkout' && paymentConfigured(env);
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Simple local image compression for Windows. Batch JPEG, PNG and WebP. Three free images per day, with a one-time unlock.">
+<meta name="description" content="Simple local image compression for Windows. Batch JPEG, PNG and WebP. Nine free images per day, with a one-time unlock.">
 <title>${escape(title)} | letsmall</title><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/styles.css">
 ${checkout ? '<script src="https://cdn.paddle.com/paddle/v2/paddle.js" defer></script>' : ''}<script src="/site.js" defer></script></head>
 <body data-page="${page}"${checkout ? ` data-paddle-token="${escape(env.PADDLE_CLIENT_TOKEN!)}" data-paddle-environment="${env.PADDLE_ENVIRONMENT}" data-transaction="${escape(transactionId)}"` : ''}>
@@ -36,7 +36,7 @@ export function home(env: Env): string {
   return layout(env, 'Simple image compression for Windows', `
 <section class="hero"><div class="wrap hero-inner"><h1>letsmall</h1><p class="hero-subtitle">Simple image compression for Windows.</p>
 <p class="hero-description">Drop your photos. Pick a format. Done.</p><div class="hero-actions"><a class="button button-primary" href="/download">${icon('monitor-down')}Download for Windows</a>${buy(env, 'Buy once · $6.90', false)}</div>
-<p class="hero-note">3 free images per day. No subscription.</p>${paymentConfigured(env) ? '' : '<p class="availability">Purchases are not available yet.</p>'}
+<p class="hero-note">9 free images per day. No subscription.</p>${paymentConfigured(env) ? '' : '<p class="availability">Purchases are not available yet.</p>'}
 <img class="app-preview" src="/app-screenshot.png" alt="letsmall Windows app with a mint file and folder drop area, image list, format selector and Compress button" width="1040" height="620" fetchpriority="high"></div></section>
 <section class="features wrap" aria-label="Features"><div>${icon('folder')}<h2>Batch files &amp; folders</h2><p>Drop a whole folder at once.</p></div><div>${icon('image')}<h2>JPEG, PNG &amp; WebP</h2><p>Keep the original or choose a format.</p></div><div>${icon('shield-check')}<h2>Private, local processing</h2><p>Your photos stay on your computer.</p></div></section>
 <section class="purchase" id="purchase"><div class="wrap"><h2>A little app. A one-time purchase.</h2><p class="price">$6.90</p><p class="price-description">One payment. One computer.</p>${buy(env, 'Unlock letsmall')}

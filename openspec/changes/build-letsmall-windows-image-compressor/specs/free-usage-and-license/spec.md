@@ -1,15 +1,19 @@
 ## Purpose
 
-为 letsmall 的 Windows 首版提供每天三张的免费使用方式，以及清晰、一次性付费的解锁流程，同时让正常压缩界面保持简洁。
+为 letsmall 的 Windows 首版提供每天九张的免费使用方式，以及清晰、一次性付费的解锁流程，同时让正常压缩界面保持简洁。
 
 ## ADDED Requirements
 
-### Requirement: Three successful images per day for free
-未解锁的安装实例 SHALL 每个本地日历日最多成功输出三张图片。失败、取消或没有产生输出的图片 SHALL 不计入使用量；次日本地日期开始时 SHALL 恢复三张额度。
+### Requirement: Nine successful images per day for free
+未解锁的安装实例 SHALL 每个本地日历日最多成功输出九张图片。失败、取消或没有产生输出的图片 SHALL 不计入使用量；次日本地日期开始时 SHALL 恢复九张额度。
 
-#### Scenario: Three successful outputs
-- **WHEN** 未解锁用户在同一天成功压缩三张图片
+#### Scenario: Nine successful outputs
+- **WHEN** 未解锁用户在同一天成功压缩九张图片
 - **THEN** 当天剩余额度为零，原图不受影响
+
+#### Scenario: Existing usage survives a quota increase
+- **WHEN** 用户更新到每日九张额度的版本，当天已有三次成功输出记录
+- **THEN** 保留使用记录，剩余额度为六张，不重新发放九张
 
 #### Scenario: Failed output does not consume quota
 - **WHEN** 某张图片压缩失败或用户在输出完成前取消
@@ -18,12 +22,12 @@
 ### Requirement: Prompt when selection exceeds available quota
 当新导入的图片使队列中的待处理数量超过当天剩余额度时，应用 SHALL 立即显示超额提示，不悄悄加入超额图片。提示 SHALL 提供保留额度内图片与进入一次性购买流程的选择；正常主界面 SHALL 不常驻显示免费次数。
 
-#### Scenario: Fourth image on an unused free day
-- **WHEN** 未解锁用户的队列已有三张图片并尝试加入第四张
-- **THEN** 应用显示免费额度提示，第四张图片不进入队列，用户可保留前三张或选择解锁
+#### Scenario: Tenth image on an unused free day
+- **WHEN** 未解锁用户的队列已有九张图片并尝试加入第十张
+- **THEN** 应用显示免费额度提示，第十张图片不进入队列，用户可保留前九张或选择解锁
 
 #### Scenario: Only one free use remains
-- **WHEN** 用户当天已成功压缩两张图片，随后尝试加入两张图片
+- **WHEN** 用户当天已成功压缩八张图片，随后尝试加入两张图片
 - **THEN** 应用按剩余一张额度提示超额，并允许用户只保留一张待处理图片
 
 ### Requirement: One-time purchase unlock

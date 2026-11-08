@@ -97,3 +97,62 @@
 #### Scenario: Unavailable metadata
 - **WHEN** 打开更新界面时服务超时或返回无效数据
 - **THEN** 显示检查失败而不是已是最新版本，用户可关闭并重新打开界面重试
+
+### Requirement: Recognizable application branding
+应用 SHALL 使用与现有橙色外框、白色内框和薄荷绿中心一致的品牌图标，覆盖程序文件、运行窗口、任务栏及安装和卸载程序；图标 SHALL 提供适用于不同 Windows 显示尺寸的资源，不显示默认程序图标。
+
+#### Scenario: Launch installed application
+- **WHEN** 用户运行安装后的软件
+- **THEN** 程序文件、任务栏及应用窗口显示同一品牌图形
+
+#### Scenario: Installer and uninstaller
+- **WHEN** 用户查看安装包或运行卸载程序
+- **THEN** 显示相同品牌图标，多种尺寸下保持可辨识
+
+### Requirement: Clear and consistent shared interaction feedback
+桌面共享控件 SHALL 区分悬停、按下、禁用和键盘焦点，保持文字可读。导入区 SHALL 支持点击或 Enter/Space 直接打开支持多选的 Windows 文件选择框并反馈拖入状态，不展示导入类型菜单；成功和失败 SHALL 同时提供文字。菜单阴影 SHALL 完整可见，交互优化 SHALL 保留现有布局和业务行为。
+
+#### Scenario: Button interaction
+- **WHEN** 用户悬停、按下并松开按钮，或使用键盘聚焦按钮
+- **THEN** 操作状态清楚、可恢复，文字不随整个控件变淡，键盘焦点可辨认
+
+#### Scenario: Import and floating menus
+- **WHEN** 用户从导入区按 Enter/Space 或展开格式下拉框
+- **THEN** 导入区直接打开支持多选的 Windows 文件选择框；格式下拉浮层的边界和阴影不被裁切
+
+### Requirement: Restrained and optional motion
+应用 SHALL 在内容出现、菜单展开和设置项显示时采用短促过渡，不阻碍点击或改变业务时序；Windows 关闭客户端区域动画时 SHALL 直接呈现最终状态。动效 SHALL 不因下载进度频繁刷新而重复播放。
+
+#### Scenario: Expand custom output folder
+- **WHEN** 用户切换至自定义保存目录，再切回原图目录
+- **THEN** 路径输入区域正确显示和隐藏，其余控件保持可用、布局无裁切
+
+#### Scenario: System animation disabled
+- **WHEN** Windows 客户端区域动画已关闭
+- **THEN** 内容和菜单直接显示，按钮不播放过渡，所有功能仍可操作
+
+### Requirement: Understandable update presentation
+更新界面 SHALL 明确区分检查中、已是最新版、可更新、下载中、已就绪和失败，结合文字、状态区及操作表达，不只依赖颜色。检查中 SHALL 有等待反馈，下载中 SHALL 禁止重复下载并保留取消操作，安装就绪后 SHALL 明确显示重启更新入口。
+
+#### Scenario: Download progress changes
+- **WHEN** 下载进度从一个百分比变为下一个百分比
+- **THEN** 更新进度且不重播整块状态区的入场动画，下载按钮不可重复触发
+
+#### Scenario: Failure or ready state
+- **WHEN** 下载失败或安装包验证完成
+- **THEN** 分别显示明确失败及重试操作，或显示重启并更新操作
+
+### Requirement: Aligned and responsive update actions
+更新窗口的可见操作按钮 SHALL 等高，同一行的上、下边缘和文字垂直位置 SHALL 对齐，并保持清晰间隔。按钮切换文案、显示或隐藏、窗口缩放时 SHALL 保持一致；空间不足时 SHALL 整体换行，不裁切文字或要求不同按钮等宽。
+
+#### Scenario: Download and later actions
+- **WHEN** 显示 Download update 和 Later
+- **THEN** 两个按钮等高且上下边缘对齐，Later 不因边距差异被拉高
+
+#### Scenario: Cancel retry and restart actions
+- **WHEN** 分别进入下载中、失败重试或待重启状态
+- **THEN** 对应的主操作、Cancel download 和 Later 保持等高；隐藏操作不留下空白按钮位
+
+#### Scenario: Narrow or scaled window
+- **WHEN** 更新窗口处于支持的窄宽度或较高显示缩放
+- **THEN** 操作可换行，同一行保持对齐且按钮文字完整可见

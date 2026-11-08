@@ -51,7 +51,8 @@ FunctionEnd
 
 Function .onInit
   ${IfNot} ${RunningX64}
-    MessageBox MB_ICONSTOP "letsmall requires 64-bit Windows."
+    MessageBox MB_ICONSTOP "letsmall requires 64-bit Windows." /SD IDOK
+    SetErrorLevel 1
     Abort
   ${EndIf}
   StrCpy $RestartAfterUpdate "0"
@@ -62,13 +63,15 @@ Function .onInit
     IntFmt $1 "%u" $UpdatePid
     ${If} $1 != $UpdatePid
     ${OrIf} $UpdatePid == "0"
-      MessageBox MB_ICONSTOP "Invalid update process."
+      MessageBox MB_ICONSTOP "Invalid update process." /SD IDOK
+      SetErrorLevel 1
       Abort
     ${EndIf}
     ReadRegStr $1 HKCU "Software\letsmall" "InstallDir"
     ${If} $1 == ""
     ${OrIf} $1 != $INSTDIR
-      MessageBox MB_ICONSTOP "The update must use the existing installation directory. Please reinstall from the website."
+      MessageBox MB_ICONSTOP "The update must use the existing installation directory. Please reinstall from the website." /SD IDOK
+      SetErrorLevel 1
       Abort
     ${EndIf}
     StrCpy $RestartAfterUpdate "1"
@@ -87,7 +90,8 @@ Section "Install"
   StrCpy $InstallMutex $0
   ${If} $0 == 0
   ${OrIf} $1 == 183
-    MessageBox MB_ICONSTOP "Another installation is running. Please try again later."
+    MessageBox MB_ICONSTOP "Another installation is running. Please try again later." /SD IDOK
+    SetErrorLevel 1
     Abort
   ${EndIf}
   StrCpy $2 0
@@ -96,7 +100,8 @@ Section "Install"
     ${If} $0 != 0
       System::Call 'kernel32::CloseHandle(p r0)'
       ${If} $2 >= 30
-        MessageBox MB_ICONSTOP "Close all letsmall windows and run the installer again. No files were replaced."
+        MessageBox MB_ICONSTOP "Close all letsmall windows and run the installer again. No files were replaced." /SD IDOK
+        SetErrorLevel 1
         Abort
       ${EndIf}
       Sleep 1000
@@ -112,13 +117,13 @@ Section "Install"
   File "${APP_BUILD_DIR}\libsharpyuv.dll"
 !endif
   ${If} ${Errors}
-    MessageBox MB_ICONSTOP "Installation failed. Please run the full installer again to repair the application."
+    MessageBox MB_ICONSTOP "Installation failed. Please run the full installer again to repair the application." /SD IDOK
     SetErrorLevel 1
     Abort
   ${EndIf}
   WriteUninstaller "$INSTDIR\Uninstall.exe"
   ${If} ${Errors}
-    MessageBox MB_ICONSTOP "Installation failed. Could not create the uninstaller."
+    MessageBox MB_ICONSTOP "Installation failed. Could not create the uninstaller." /SD IDOK
     SetErrorLevel 1
     Abort
   ${EndIf}
@@ -137,7 +142,7 @@ Section "Install"
   WriteRegStr HKCU "Software\Classes\letsmall" "URL Protocol" ""
   WriteRegStr HKCU "Software\Classes\letsmall\shell\open\command" "" '"$INSTDIR\letsmall.exe" "%1"'
   ${If} ${Errors}
-    MessageBox MB_ICONSTOP "Installation could not be completed. Please run the full installer again."
+    MessageBox MB_ICONSTOP "Installation could not be completed. Please run the full installer again." /SD IDOK
     SetErrorLevel 1
     Abort
   ${EndIf}

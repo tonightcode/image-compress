@@ -89,6 +89,7 @@ namespace LetSmall
 
     internal sealed class QuotaCounter
     {
+        internal const int DailyLimit = 9;
         private readonly QuotaState state;
 
         internal QuotaCounter()
@@ -101,7 +102,7 @@ namespace LetSmall
             get
             {
                 RefreshDay();
-                return Math.Max(0, 3 - state.Used);
+                return Math.Max(0, DailyLimit - state.Used);
             }
         }
 

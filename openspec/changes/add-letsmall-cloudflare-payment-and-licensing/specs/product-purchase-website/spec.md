@@ -6,7 +6,7 @@
 
 ### Requirement: Focused English product website
 
-网站 SHALL 展示 letsmall 名称、真实软件截图、支持的 Windows 版本、批量本地压缩功能、每天三张成功输出的免费规则、有效下载入口及美元 6.90 一次性价格。网站 SHALL 明确一单一机、不可转移、卸载重装保留本地许可证、许可证被清理后需重新购买；不得宣传未实现的 macOS 版。
+网站 SHALL 展示 letsmall 名称、真实软件截图、支持的 Windows 版本、批量本地压缩功能、每天九张成功输出的免费规则、有效下载入口及美元 6.90 一次性价格。网站 SHALL 明确一单一机、不可转移、卸载重装保留本地许可证、许可证被清理后需重新购买；不得宣传未实现的 macOS 版。
 
 #### Scenario: User visits product page
 - **WHEN** 用户打开产品网站

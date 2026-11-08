@@ -49,6 +49,7 @@ namespace LetSmall
             locationGroup.Children.Add(location);
 
             folderRow = new Grid { Margin = new Thickness(0, 8, 0, 0) };
+            UiMotion.SetRevealOnShow(folderRow, true);
             folderRow.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             folderRow.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             Grid.SetRow(folderRow, 2);
@@ -87,6 +88,9 @@ namespace LetSmall
             Grid.SetRow(actions, 5);
             root.Children.Add(actions);
             var cancel = UiPalette.Button("Cancel", false);
+            cancel.HorizontalAlignment = HorizontalAlignment.Left;
+            cancel.MinWidth = 110;
+            cancel.Margin = new Thickness(0, 0, 12, 0);
             cancel.Click += (sender, args) => { DialogResult = false; };
             actions.Children.Add(cancel);
             var save = UiPalette.Button("Save settings", true);

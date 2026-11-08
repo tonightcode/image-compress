@@ -35,6 +35,7 @@ namespace LetSmall
                 Padding = new Thickness(18, 9, 18, 9),
                 FontFamily = new FontFamily("Segoe UI"),
                 FontSize = 15,
+                MinHeight = 38,
                 Cursor = System.Windows.Input.Cursors.Hand
             };
         }
@@ -57,6 +58,7 @@ namespace LetSmall
                 new Uri("pack://application:,,,/letsmall;component/Assets/letsmall.ico", UriKind.Absolute));
             window.UseLayoutRounding = true;
             window.SnapsToDevicePixels = true;
+            window.Loaded += (sender, args) => UiMotion.Reveal(window.Content as FrameworkElement);
             window.SourceInitialized += (sender, args) =>
             {
                 var handle = new WindowInteropHelper(window).Handle;

@@ -66,6 +66,7 @@
     <Compile Include="ImportService.cs" />
     <Compile Include="OutputService.cs" />
     <Compile Include="UiPalette.cs" />
+    <Compile Include="UiMotion.cs" />
     <Compile Include="ErrorMessages.cs" />
     <Compile Include="LicenseVerifier.cs" />
     <Compile Include="LicenseStore.cs" />

@@ -7,7 +7,7 @@ app. Product and support contact: **jialeipengzx@gmail.com**.
 
 ## Try before purchasing
 
-The free version permits compression of up to three images per day. Please
+The free version permits compression of up to nine images per day. Please
 try the app on your computer and check the output before purchasing. Supported
 systems are Windows 10 22H2 and Windows 11, 64-bit. A macOS version is not
 included in this purchase.
